@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para Mi Amor</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #ffe6eb;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .heart-button {
+      position: relative;
+      width: 120px;
+      height: 110px;
+      background-color: red;
+      transform: rotate(-45deg);
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .heart-button::before,
+    .heart-button::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 110px;
+      background-color: red;
+      border-radius: 50%;
+    }
+
+    .heart-button::before {
+      top: -60px;
+      left: 0;
+    }
+
+    .heart-button::after {
+      top: 0;
+      left: 60px;
+    }
+
+    .heart-button:hover {
+      transform: rotate(-45deg) scale(1.05);
+      box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
+    }
+
+    .heart-content {
+      transform: rotate(45deg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .heart-text {
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      pointer-events: none;
+      text-align: center;
+      width: 100px;
+    }
+
+    .mensaje {
+      margin-top: 30px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #b30059;
+      padding: 0 20px;
+      text-align: center;
+      z-index: 2;
+      min-height: 24px;
+    }
+
+    .corazon {
+      position: absolute;
+      color: red;
+      font-size: 20px;
+      animation: flotar 6s linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes flotar {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="heart-button" onclick="mostrarMensaje(); reproducirSonido();">
+      <div class="heart-content">
+        <div class="heart-text">OPRÍMEME</div>
+      </div>
+    </div>
+    <div class="mensaje" id="mensaje"></div>
+  </div>
+
+  <!-- Sonido opcional -->
+  <audio id="audio" preload="auto">
+    <source src="https://www.soundjay.com/buttons/sounds/button-16.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const mensajes = [
+      "Te amo",
+      "Eres mi vida entera",
+      "Tienes los ojos más lindos del mundo",
+      "Eres la mujer más hermosa del universo",
+      "Eres como una puesta de sol y a mí me gustan mucho",
+      "Me haces sentir muy especial",
+      "Eres mi princesa y la niña de mis ojos",
+      "Tienes esa sonrisa que a mi me mata",
+      "Nadie te supera y ni te llegan a los talones",
+      "Estoy demasiado orgulloso de mi niña preciosa"
+    ];
+
+    function mostrarMensaje() {
+      const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
+      const elemento = document.getElementById('mensaje');
+      elemento.textContent = "";
+      escribirLento(mensaje, elemento, 0);
+    }
+
+    function escribirLento(texto, elemento, i) {
+      if (i < texto.length) {
+        elemento.textContent += texto.charAt(i);
+        setTimeout(() => escribirLento(texto, elemento, i + 1), 50);
+      }
+    }
+
+    function reproducirSonido() {
+      const sonido = document.getElementById('audio');
+      sonido.currentTime = 0;
+      sonido.play();
+    }
+
+    function crearCorazon() {
+      const corazon = document.createElement('div');
+      corazon.classList.add('corazon');
+      corazon.innerHTML = '❤️';
+      corazon.style.left = Math.random() * 100 + "vw";
+      corazon.style.fontSize = (Math.random() * 20 + 10) + "px";
+      document.body.appendChild(corazon);
+      setTimeout(() => {
+        corazon.remove();
+      }, 6000);
+    }
+
+    setInterval(crearCorazon, 300);
+  </script>
+</body>
+</html>
